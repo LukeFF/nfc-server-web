@@ -1,0 +1,60 @@
+{% extends "index.html" %}
+
+{% block title %}Details: ID {{ tag.id }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>Details: ID {{ tag.id }}</h1>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <table class="table table-striped">
+      <tr>
+        <td>Tag UID:</td>
+        <td>{{ tag.uid }}</td>
+      </tr>
+      <tr>
+        <td>Tag Type:</td>
+        <td>{{ tag.tagtype }}</td>
+      </tr>
+      <tr>
+        <td>Time scanned:</td>
+        <td>{{ tag.timestamp }}</td>
+      </tr>
+      <tr>
+        <td>Reader:</td>
+        <td>{{ tag.reader }}</td>
+      </tr>
+      <tr>
+        <td>NDEF Version:</td>
+        <td>{{ tag.ndef_version }}</td>
+      </tr>
+      <tr>
+        <td>Readable:</td>
+        <td>{{ tag.ndef_readable }}</td>
+      </tr>
+      <tr>
+        <td>Writeable:</td>
+        <td>{{ tag.ndef_writeable }}</td>
+      </tr>
+      <tr>
+        <td>Capacity:</td>
+        <td>{{ tag.ndef_capacity }} bytes</td>
+      </tr>
+      <tr>
+        <td>Used Space:</td>
+        <td>{{ tag.ndef_length }} bytes</td>
+      </tr>
+    </table>
+  </div>
+  <div class="col-md-6">
+    Encoded Message:
+    <p>{{ tag.message }}</p>
+    Raw Message:
+    <p>{{ tag.ndef_message }}</p>
+    Full Memdump:
+    <code>
+      {{ tag.memdump }}
+    </code>
+  </div>
+{% endblock %}

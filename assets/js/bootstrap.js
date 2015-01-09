@@ -1,13 +1,22 @@
 /*!
- * Bootstrap v3.2.0 (http://getbootstrap.com)
+ * Bootstrap v3.3.1 (http://getbootstrap.com)
  * Copyright 2011-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
-if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript requires jQuery') }
+if (typeof jQuery === 'undefined') {
+  throw new Error('Bootstrap\'s JavaScript requires jQuery')
+}
+
++function ($) {
+  var version = $.fn.jquery.split(' ')[0].split('.')
+  if ((version[0] < 2 && version[1] < 9) || (version[0] == 1 && version[1] == 9 && version[2] < 1)) {
+    throw new Error('Bootstrap\'s JavaScript requires jQuery version 1.9.1 or higher')
+  }
+}(jQuery);
 
 /* ========================================================================
- * Bootstrap: transition.js v3.3.0
+ * Bootstrap: transition.js v3.3.1
  * http://getbootstrap.com/javascript/#transitions
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
@@ -67,7 +76,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: alert.js v3.3.0
+ * Bootstrap: alert.js v3.3.1
  * http://getbootstrap.com/javascript/#alerts
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
@@ -86,7 +95,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     $(el).on('click', dismiss, this.close)
   }
 
-  Alert.VERSION = '3.3.0'
+  Alert.VERSION = '3.3.1'
 
   Alert.TRANSITION_DURATION = 150
 
@@ -162,7 +171,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: button.js v3.3.0
+ * Bootstrap: button.js v3.3.1
  * http://getbootstrap.com/javascript/#buttons
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
@@ -182,7 +191,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     this.isLoading = false
   }
 
-  Button.VERSION  = '3.3.0'
+  Button.VERSION  = '3.3.1'
 
   Button.DEFAULTS = {
     loadingText: 'loading...'
@@ -273,13 +282,13 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
       e.preventDefault()
     })
     .on('focus.bs.button.data-api blur.bs.button.data-api', '[data-toggle^="button"]', function (e) {
-      $(e.target).closest('.btn').toggleClass('focus', e.type == 'focus')
+      $(e.target).closest('.btn').toggleClass('focus', /^focus(in)?$/.test(e.type))
     })
 
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: carousel.js v3.3.0
+ * Bootstrap: carousel.js v3.3.1
  * http://getbootstrap.com/javascript/#carousel
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
@@ -310,7 +319,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
       .on('mouseleave.bs.carousel', $.proxy(this.cycle, this))
   }
 
-  Carousel.VERSION  = '3.3.0'
+  Carousel.VERSION  = '3.3.1'
 
   Carousel.TRANSITION_DURATION = 600
 
@@ -322,6 +331,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   }
 
   Carousel.prototype.keydown = function (e) {
+    if (/input|textarea/i.test(e.target.tagName)) return
     switch (e.which) {
       case 37: this.prev(); break
       case 39: this.next(); break
@@ -519,7 +529,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: collapse.js v3.3.0
+ * Bootstrap: collapse.js v3.3.1
  * http://getbootstrap.com/javascript/#collapse
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
@@ -548,7 +558,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     if (this.options.toggle) this.toggle()
   }
 
-  Collapse.VERSION  = '3.3.0'
+  Collapse.VERSION  = '3.3.1'
 
   Collapse.TRANSITION_DURATION = 350
 
@@ -731,7 +741,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: dropdown.js v3.3.0
+ * Bootstrap: dropdown.js v3.3.1
  * http://getbootstrap.com/javascript/#dropdowns
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
@@ -751,7 +761,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     $(element).on('click.bs.dropdown', this.toggle)
   }
 
-  Dropdown.VERSION = '3.3.0'
+  Dropdown.VERSION = '3.3.1'
 
   Dropdown.prototype.toggle = function (e) {
     var $this = $(this)
@@ -787,7 +797,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   }
 
   Dropdown.prototype.keydown = function (e) {
-    if (!/(38|40|27|32)/.test(e.which)) return
+    if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
 
     var $this = $(this)
 
@@ -893,7 +903,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: modal.js v3.3.0
+ * Bootstrap: modal.js v3.3.1
  * http://getbootstrap.com/javascript/#modals
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
@@ -924,7 +934,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     }
   }
 
-  Modal.VERSION  = '3.3.0'
+  Modal.VERSION  = '3.3.1'
 
   Modal.TRANSITION_DURATION = 300
   Modal.BACKDROP_TRANSITION_DURATION = 150
@@ -950,10 +960,11 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     this.isShown = true
 
     this.checkScrollbar()
+    this.setScrollbar()
     this.$body.addClass('modal-open')
 
-    this.setScrollbar()
     this.escape()
+    this.resize()
 
     this.$element.on('click.dismiss.bs.modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
 
@@ -967,6 +978,9 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
       that.$element
         .show()
         .scrollTop(0)
+
+      if (that.options.backdrop) that.adjustBackdrop()
+      that.adjustDialog()
 
       if (transition) {
         that.$element[0].offsetWidth // force reflow
@@ -1002,6 +1016,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     this.isShown = false
 
     this.escape()
+    this.resize()
 
     $(document).off('focusin.bs.modal')
 
@@ -1037,11 +1052,20 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     }
   }
 
+  Modal.prototype.resize = function () {
+    if (this.isShown) {
+      $(window).on('resize.bs.modal', $.proxy(this.handleUpdate, this))
+    } else {
+      $(window).off('resize.bs.modal')
+    }
+  }
+
   Modal.prototype.hideModal = function () {
     var that = this
     this.$element.hide()
     this.backdrop(function () {
       that.$body.removeClass('modal-open')
+      that.resetAdjustments()
       that.resetScrollbar()
       that.$element.trigger('hidden.bs.modal')
     })
@@ -1098,13 +1122,43 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     }
   }
 
+  // these following methods are used to handle overflowing modals
+
+  Modal.prototype.handleUpdate = function () {
+    if (this.options.backdrop) this.adjustBackdrop()
+    this.adjustDialog()
+  }
+
+  Modal.prototype.adjustBackdrop = function () {
+    this.$backdrop
+      .css('height', 0)
+      .css('height', this.$element[0].scrollHeight)
+  }
+
+  Modal.prototype.adjustDialog = function () {
+    var modalIsOverflowing = this.$element[0].scrollHeight > document.documentElement.clientHeight
+
+    this.$element.css({
+      paddingLeft:  !this.bodyIsOverflowing && modalIsOverflowing ? this.scrollbarWidth : '',
+      paddingRight: this.bodyIsOverflowing && !modalIsOverflowing ? this.scrollbarWidth : ''
+    })
+  }
+
+  Modal.prototype.resetAdjustments = function () {
+    this.$element.css({
+      paddingLeft: '',
+      paddingRight: ''
+    })
+  }
+
   Modal.prototype.checkScrollbar = function () {
+    this.bodyIsOverflowing = document.body.scrollHeight > document.documentElement.clientHeight
     this.scrollbarWidth = this.measureScrollbar()
   }
 
   Modal.prototype.setScrollbar = function () {
     var bodyPad = parseInt((this.$body.css('padding-right') || 0), 10)
-    if (this.scrollbarWidth) this.$body.css('padding-right', bodyPad + this.scrollbarWidth)
+    if (this.bodyIsOverflowing) this.$body.css('padding-right', bodyPad + this.scrollbarWidth)
   }
 
   Modal.prototype.resetScrollbar = function () {
@@ -1112,7 +1166,6 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   }
 
   Modal.prototype.measureScrollbar = function () { // thx walsh
-    if (document.body.clientWidth >= window.innerWidth) return 0
     var scrollDiv = document.createElement('div')
     scrollDiv.className = 'modal-scrollbar-measure'
     this.$body.append(scrollDiv)
@@ -1174,364 +1227,8 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 
 }(jQuery);
 
-/*
-Lightbox for Bootstrap 3 by @ashleydw
-https://github.com/ashleydw/lightbox
-
-License: https://github.com/ashleydw/lightbox/blob/master/LICENSE
-*/
-
-
-(function() {
-  "use strict";
-  var $, EkkoLightbox;
-
-  $ = jQuery;
-
-  EkkoLightbox = function(element, options) {
-    var content, footer, header,
-      _this = this;
-    this.options = $.extend({
-      title: null,
-      footer: null,
-      remote: null
-    }, $.fn.ekkoLightbox.defaults, options || {});
-    this.$element = $(element);
-    content = '';
-    this.modal_id = this.options.modal_id ? this.options.modal_id : 'ekkoLightbox-' + Math.floor((Math.random() * 1000) + 1);
-    header = '<div class="modal-header"' + (this.options.title || this.options.always_show_close ? '' : ' style="display:none"') + '><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">' + (this.options.title || "&nbsp;") + '</h4></div>';
-    footer = '<div class="modal-footer"' + (this.options.footer ? '' : ' style="display:none"') + '>' + this.options.footer + '</div>';
-    $(document.body).append('<div id="' + this.modal_id + '" class="ekko-lightbox modal fade" tabindex="-1"><div class="modal-dialog"><div class="modal-content">' + header + '<div class="modal-body"><div class="ekko-lightbox-container"><div></div></div></div>' + footer + '</div></div></div>');
-    this.modal = $('#' + this.modal_id);
-    this.modal_dialog = this.modal.find('.modal-dialog').first();
-    this.modal_content = this.modal.find('.modal-content').first();
-    this.modal_body = this.modal.find('.modal-body').first();
-    this.lightbox_container = this.modal_body.find('.ekko-lightbox-container').first();
-    this.lightbox_body = this.lightbox_container.find('> div:first-child').first();
-    this.showLoading();
-    this.modal_arrows = null;
-    this.border = {
-      top: parseFloat(this.modal_dialog.css('border-top-width')) + parseFloat(this.modal_content.css('border-top-width')) + parseFloat(this.modal_body.css('border-top-width')),
-      right: parseFloat(this.modal_dialog.css('border-right-width')) + parseFloat(this.modal_content.css('border-right-width')) + parseFloat(this.modal_body.css('border-right-width')),
-      bottom: parseFloat(this.modal_dialog.css('border-bottom-width')) + parseFloat(this.modal_content.css('border-bottom-width')) + parseFloat(this.modal_body.css('border-bottom-width')),
-      left: parseFloat(this.modal_dialog.css('border-left-width')) + parseFloat(this.modal_content.css('border-left-width')) + parseFloat(this.modal_body.css('border-left-width'))
-    };
-    this.padding = {
-      top: parseFloat(this.modal_dialog.css('padding-top')) + parseFloat(this.modal_content.css('padding-top')) + parseFloat(this.modal_body.css('padding-top')),
-      right: parseFloat(this.modal_dialog.css('padding-right')) + parseFloat(this.modal_content.css('padding-right')) + parseFloat(this.modal_body.css('padding-right')),
-      bottom: parseFloat(this.modal_dialog.css('padding-bottom')) + parseFloat(this.modal_content.css('padding-bottom')) + parseFloat(this.modal_body.css('padding-bottom')),
-      left: parseFloat(this.modal_dialog.css('padding-left')) + parseFloat(this.modal_content.css('padding-left')) + parseFloat(this.modal_body.css('padding-left'))
-    };
-    this.modal.on('show.bs.modal', this.options.onShow.bind(this)).on('shown.bs.modal', function() {
-      _this.modal_shown();
-      return _this.options.onShown.call(_this);
-    }).on('hide.bs.modal', this.options.onHide.bind(this)).on('hidden.bs.modal', function() {
-      if (_this.gallery) {
-        $(document).off('keydown.ekkoLightbox');
-      }
-      _this.modal.remove();
-      return _this.options.onHidden.call(_this);
-    }).modal('show', options);
-    return this.modal;
-  };
-
-  EkkoLightbox.prototype = {
-    modal_shown: function() {
-      var video_id,
-        _this = this;
-      if (!this.options.remote) {
-        return this.error('No remote target given');
-      } else {
-        this.gallery = this.$element.data('gallery');
-        if (this.gallery) {
-          if (this.options.gallery_parent_selector === 'document.body' || this.options.gallery_parent_selector === '') {
-            this.gallery_items = $(document.body).find('*[data-toggle="lightbox"][data-gallery="' + this.gallery + '"]');
-          } else {
-            this.gallery_items = this.$element.parents(this.options.gallery_parent_selector).first().find('*[data-toggle="lightbox"][data-gallery="' + this.gallery + '"]');
-          }
-          this.gallery_index = this.gallery_items.index(this.$element);
-          $(document).on('keydown.ekkoLightbox', this.navigate.bind(this));
-          if (this.options.directional_arrows && this.gallery_items.length > 1) {
-            this.lightbox_container.prepend('<div class="ekko-lightbox-nav-overlay"><a href="#" class="' + this.strip_stops(this.options.left_arrow_class) + '"></a><a href="#" class="' + this.strip_stops(this.options.right_arrow_class) + '"></a></div>');
-            this.modal_arrows = this.lightbox_container.find('div.ekko-lightbox-nav-overlay').first();
-            this.lightbox_container.find('a' + this.strip_spaces(this.options.left_arrow_class)).on('click', function(event) {
-              event.preventDefault();
-              return _this.navigate_left();
-            });
-            this.lightbox_container.find('a' + this.strip_spaces(this.options.right_arrow_class)).on('click', function(event) {
-              event.preventDefault();
-              return _this.navigate_right();
-            });
-          }
-        }
-        if (this.options.type) {
-          if (this.options.type === 'image') {
-            return this.preloadImage(this.options.remote, true);
-          } else if (this.options.type === 'youtube' && (video_id = this.getYoutubeId(this.options.remote))) {
-            return this.showYoutubeVideo(video_id);
-          } else if (this.options.type === 'vimeo') {
-            return this.showVimeoVideo(this.options.remote);
-          } else if (this.options.type === 'instagram') {
-            return this.showInstagramVideo(this.options.remote);
-          } else {
-            return this.error("Could not detect remote target type. Force the type using data-type=\"image|youtube|vimeo\"");
-          }
-        } else {
-          return this.detectRemoteType(this.options.remote);
-        }
-      }
-    },
-    strip_stops: function(str) {
-      return str.replace(/\./g, '');
-    },
-    strip_spaces: function(str) {
-      return str.replace(/\s/g, '');
-    },
-    isImage: function(str) {
-      return str.match(/(^data:image\/.*,)|(\.(jp(e|g|eg)|gif|png|bmp|webp|svg)((\?|#).*)?$)/i);
-    },
-    isSwf: function(str) {
-      return str.match(/\.(swf)((\?|#).*)?$/i);
-    },
-    getYoutubeId: function(str) {
-      var match;
-      match = str.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/);
-      if (match && match[2].length === 11) {
-        return match[2];
-      } else {
-        return false;
-      }
-    },
-    getVimeoId: function(str) {
-      if (str.indexOf('vimeo') > 0) {
-        return str;
-      } else {
-        return false;
-      }
-    },
-    getInstagramId: function(str) {
-      if (str.indexOf('instagram') > 0) {
-        return str;
-      } else {
-        return false;
-      }
-    },
-    navigate: function(event) {
-      event = event || window.event;
-      if (event.keyCode === 39 || event.keyCode === 37) {
-        if (event.keyCode === 39) {
-          return this.navigate_right();
-        } else if (event.keyCode === 37) {
-          return this.navigate_left();
-        }
-      }
-    },
-    navigate_left: function() {
-      var src;
-      if (this.gallery_items.length === 1) {
-        return;
-      }
-      this.showLoading();
-      if (this.gallery_index === 0) {
-        this.gallery_index = this.gallery_items.length - 1;
-      } else {
-        this.gallery_index--;
-      }
-      this.options.onNavigate('left', this.gallery_index);
-      this.$element = $(this.gallery_items.get(this.gallery_index));
-      this.updateTitleAndFooter();
-      src = this.$element.attr('data-remote') || this.$element.attr('href');
-      return this.detectRemoteType(src, this.$element.attr('data-type'));
-    },
-    navigate_right: function() {
-      var next, src;
-      if (this.gallery_items.length === 1) {
-        return;
-      }
-      this.showLoading();
-      if (this.gallery_index === this.gallery_items.length - 1) {
-        this.gallery_index = 0;
-      } else {
-        this.gallery_index++;
-      }
-      this.options.onNavigate('right', this.gallery_index);
-      this.$element = $(this.gallery_items.get(this.gallery_index));
-      src = this.$element.attr('data-remote') || this.$element.attr('href');
-      this.updateTitleAndFooter();
-      this.detectRemoteType(src, this.$element.attr('data-type'));
-      if (this.gallery_index + 1 < this.gallery_items.length) {
-        next = $(this.gallery_items.get(this.gallery_index + 1), false);
-        src = next.attr('data-remote') || next.attr('href');
-        if (next.attr('data-type') === 'image' || this.isImage(src)) {
-          return this.preloadImage(src, false);
-        }
-      }
-    },
-    detectRemoteType: function(src, type) {
-      var video_id;
-      if (type === 'image' || this.isImage(src)) {
-        this.options.type = 'image';
-        return this.preloadImage(src, true);
-      } else if (type === 'youtube' || (video_id = this.getYoutubeId(src))) {
-        this.options.type = 'youtube';
-        return this.showYoutubeVideo(video_id);
-      } else if (type === 'vimeo' || (video_id = this.getVimeoId(src))) {
-        this.options.type = 'vimeo';
-        return this.showVimeoVideo(video_id);
-      } else if (type === 'instagram' || (video_id = this.getInstagramId(src))) {
-        this.options.type = 'instagram';
-        return this.showInstagramVideo(video_id);
-      } else {
-        return this.error("Could not detect remote target type. Force the type using data-type=\"image|youtube|vimeo\"");
-      }
-    },
-    updateTitleAndFooter: function() {
-      var caption, footer, header, title;
-      header = this.modal_content.find('.modal-header');
-      footer = this.modal_content.find('.modal-footer');
-      title = this.$element.data('title') || "";
-      caption = this.$element.data('footer') || "";
-      if (title || this.options.always_show_close) {
-        header.css('display', '').find('.modal-title').html(title || "&nbsp;");
-      } else {
-        header.css('display', 'none');
-      }
-      if (caption) {
-        footer.css('display', '').html(caption);
-      } else {
-        footer.css('display', 'none');
-      }
-      return this;
-    },
-    showLoading: function() {
-      this.lightbox_body.html('<div class="modal-loading">Loading... <span class="fa fa-spinner fa-spin"></span></div>');
-      return this;
-    },
-    showYoutubeVideo: function(id) {
-      var aspectRatio, height, width;
-      aspectRatio = 560 / 315;
-      width = this.$element.data('width') || 560;
-      width = this.checkDimensions(width);
-      height = width / aspectRatio;
-      this.resize(width);
-      this.lightbox_body.html('<iframe width="' + width + '" height="' + height + '" src="//www.youtube.com/embed/' + id + '?badge=0&autoplay=1&html5=1" frameborder="0" allowfullscreen></iframe>');
-      if (this.modal_arrows) {
-        return this.modal_arrows.css('display', 'none');
-      }
-    },
-    showVimeoVideo: function(id) {
-      var aspectRatio, height, width;
-      aspectRatio = 500 / 281;
-      width = this.$element.data('width') || 560;
-      width = this.checkDimensions(width);
-      height = width / aspectRatio;
-      this.resize(width);
-      this.lightbox_body.html('<iframe width="' + width + '" height="' + height + '" src="' + id + '?autoplay=1" frameborder="0" allowfullscreen></iframe>');
-      if (this.modal_arrows) {
-        return this.modal_arrows.css('display', 'none');
-      }
-    },
-    showInstagramVideo: function(id) {
-      var height, width;
-      width = this.$element.data('width') || 612;
-      width = this.checkDimensions(width);
-      height = width;
-      this.resize(width);
-      this.lightbox_body.html('<iframe width="' + width + '" height="' + height + '" src="' + this.addTrailingSlash(id) + 'embed/" frameborder="0" allowfullscreen></iframe>');
-      if (this.modal_arrows) {
-        return this.modal_arrows.css('display', 'none');
-      }
-    },
-    error: function(message) {
-      this.lightbox_body.html(message);
-      return this;
-    },
-    preloadImage: function(src, onLoadShowImage) {
-      var img,
-        _this = this;
-      img = new Image();
-      if ((onLoadShowImage == null) || onLoadShowImage === true) {
-        img.onload = function() {
-          var image;
-          image = $('<img />');
-          image.attr('src', img.src);
-          image.addClass('img-responsive');
-          _this.lightbox_body.html(image);
-          if (_this.modal_arrows) {
-            _this.modal_arrows.css('display', 'block');
-          }
-          return _this.resize(img.width);
-        };
-        img.onerror = function() {
-          return _this.error('Failed to load image: ' + src);
-        };
-      }
-      img.src = src;
-      return img;
-    },
-    resize: function(width) {
-      var width_total;
-      width_total = width + this.border.left + this.padding.left + this.padding.right + this.border.right;
-      this.modal_dialog.css('width', 'auto').css('max-width', width_total);
-      return this;
-    },
-    checkDimensions: function(width) {
-      var body_width, width_total;
-      width_total = width + this.border.left + this.padding.left + this.padding.right + this.border.right;
-      body_width = document.body.clientWidth;
-      if (width_total > body_width) {
-        width = this.modal_body.width();
-      }
-      return width;
-    },
-    close: function() {
-      return this.modal.modal('hide');
-    },
-    addTrailingSlash: function(url) {
-      if (url.substr(-1) !== '/') {
-        url += '/';
-      }
-      return url;
-    }
-  };
-
-  $.fn.ekkoLightbox = function(options) {
-    return this.each(function() {
-      var $this;
-      $this = $(this);
-      options = $.extend({
-        remote: $this.attr('data-remote') || $this.attr('href'),
-        gallery_parent_selector: $this.attr('data-parent'),
-        type: $this.attr('data-type')
-      }, options, $this.data());
-      new EkkoLightbox(this, options);
-      return this;
-    });
-  };
-
-  $.fn.ekkoLightbox.defaults = {
-    gallery_parent_selector: '*:not(.row)',
-    left_arrow_class: '.fa .fa-chevron-circle-left .fa-2x',
-    right_arrow_class: '.fa .fa-chevron-circle-right .fa-2x',
-    directional_arrows: true,
-    type: null,
-    always_show_close: true,
-    onShow: function() {},
-    onShown: function() {},
-    onHide: function() {},
-    onHidden: function() {},
-    onNavigate: function() {}
-  };
-
-}).call(this);
-
-$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
-    event.preventDefault();
-    $(this).ekkoLightbox();
-});
-
 /* ========================================================================
- * Bootstrap: tooltip.js v3.3.0
+ * Bootstrap: tooltip.js v3.3.1
  * http://getbootstrap.com/javascript/#tooltip
  * Inspired by the original jQuery.tipsy by Jason Frame
  * ========================================================================
@@ -1557,7 +1254,7 @@ $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
     this.init('tooltip', element, options)
   }
 
-  Tooltip.VERSION  = '3.3.0'
+  Tooltip.VERSION  = '3.3.1'
 
   Tooltip.TRANSITION_DURATION = 150
 
@@ -2010,7 +1707,7 @@ $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: popover.js v3.3.0
+ * Bootstrap: popover.js v3.3.1
  * http://getbootstrap.com/javascript/#popovers
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
@@ -2030,7 +1727,7 @@ $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
 
   if (!$.fn.tooltip) throw new Error('Popover requires tooltip.js')
 
-  Popover.VERSION  = '3.3.0'
+  Popover.VERSION  = '3.3.1'
 
   Popover.DEFAULTS = $.extend({}, $.fn.tooltip.Constructor.DEFAULTS, {
     placement: 'right',
@@ -2130,7 +1827,7 @@ $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: scrollspy.js v3.3.0
+ * Bootstrap: scrollspy.js v3.3.1
  * http://getbootstrap.com/javascript/#scrollspy
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
@@ -2161,7 +1858,7 @@ $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
     this.process()
   }
 
-  ScrollSpy.VERSION  = '3.3.0'
+  ScrollSpy.VERSION  = '3.3.1'
 
   ScrollSpy.DEFAULTS = {
     offset: 10
@@ -2306,7 +2003,7 @@ $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: tab.js v3.3.0
+ * Bootstrap: tab.js v3.3.1
  * http://getbootstrap.com/javascript/#tabs
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
@@ -2324,7 +2021,7 @@ $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
     this.element = $(element)
   }
 
-  Tab.VERSION = '3.3.0'
+  Tab.VERSION = '3.3.1'
 
   Tab.TRANSITION_DURATION = 150
 
@@ -2460,7 +2157,7 @@ $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: affix.js v3.3.0
+ * Bootstrap: affix.js v3.3.1
  * http://getbootstrap.com/javascript/#affix
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
@@ -2489,7 +2186,7 @@ $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
     this.checkPosition()
   }
 
-  Affix.VERSION  = '3.3.0'
+  Affix.VERSION  = '3.3.1'
 
   Affix.RESET    = 'affix affix-top affix-bottom'
 

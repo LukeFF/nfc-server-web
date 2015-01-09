@@ -1,17 +1,18 @@
 from django.db import models
 
-# Create your models here.
 class NfcTag(models.Model):
     uid = models.CharField(max_length=200)
     tagtype = models.ForeignKey('TagType')
-    ndef_version = models.CharField(max_length=200)
+    sak = models.CharField(max_length=200, null=True)
+    atq = models.CharField(max_length=200, null=True)
+    timestamp = models.DateTimeField('time scanned')
+    reader = models.CharField(max_length=200, null=True)
+    ndef_version = models.CharField(max_length=200, null=True, blank=True)
     ndef_readable = models.NullBooleanField()
     ndef_writeable = models.NullBooleanField()
-    ndef_capacity = models.IntegerField('in bytes')
-    ndef_length = models.IntegerField('in bytes')
+    ndef_capacity = models.IntegerField(null=True, blank=True, help_text='Tag capacity in bytes')
+    ndef_length = models.IntegerField(null=True, blank=True, help_text='Message length in bytes')
     ndef_message = models.TextField(blank=True)
-    memdump = models.TextField(blank=True)
-    timestamp = models.DateTimeField('time scanned')
 
     def __unicode__(self):
         return self.uid

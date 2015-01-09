@@ -1,0 +1,66 @@
+{% extends "index.html" %}
+
+{% block title %}Tag List{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>Gescannte NFC Tags</h1>
+</div>
+{% if tag_list %}
+<table class="table table-condensed table-hover table-striped" id="bootgrid">
+  <thead>
+    <tr>
+      <th data-column-id="uid">UID</th>
+      <th data-column-id="tagtype">Tag Type</th>
+      <th data-column-id="atq" data-visible="false">ATQ</th>
+      <th data-column-id="SAK" data-visible="false">SAK</th>
+      <th data-column-id="reader">Reader</th>
+      <th data-column-id="timestamp" data-searchable="false" data-order="desc">Time scanned</th>
+      <th data-column-id="options" data-sortable="false" data-searchable="false" data-align="right" data-formatter="link"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for tag in tag_list %}
+    <tr>
+      <td>{{ tag.uid }}</a></td>
+      <td>{{ tag.tagtype }}</td>
+      <td>{{ tag.atq }}</td>
+      <td>{{ tag.sak }}</td>
+      <td>{{ tag.reader }}</td>
+      <td>{{ tag.timestamp}}</td>
+      <td>
+        <a href="./{{ tag.uid }}/" class="btn btn-default" title="tag history"><span class="glyphicon glyphicon-th-list"></span></a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+  {% else %}
+  <p class="alert alert-info">No tags are available.</p>
+  {% endif %}
+  {% if tag_types %}
+  <div class="page-header">
+    <h3>Tag Typen</h3>
+  </div>
+  <table class="table table-condensed table-hover table-striped">
+    <thead>
+      <tr>
+        <th data-column-id="name">Name</th>
+        <th data-column-id="capacity">Kapazität</th>
+        <th data-column-id="speed">Lese-/Schreibgeschwindigkeit</th>
+        <th data-column-id="access">Zugriff</td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for type in tag_types %}
+        <tr>
+          <td>{{ type.name }}</td>
+          <td>{{ type.capacity }}</td>
+          <td>{{ type.speed }}</td>
+          <td>{{ type.access }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+{% endblock %}
