@@ -24,11 +24,11 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="./"><span class="glyphicon glyphicon-tags"></span> NFC SERVER</a>
+        <a class="navbar-brand" href="{% url 'index' %}"><span class="glyphicon glyphicon-tags"></span> NFC SERVER</a>
       </div>
       <div class="collapse navbar-collapse" id="nfc-nav">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="/tags/add">Manual add NFC Tag</a></li>
+          <li><a href="{% url 'add' %}">Manual add NFC Tag</a></li>
         </ul>
       </div>
     </div>
