@@ -1,0 +1,41 @@
+[{
+  "fields": {
+    "access": "read/write or read only",
+    "speed": "106 kbit/s",
+    "capacity": "456 Bytes",
+    "name": "Type 1",
+    "description": ""
+  },
+  "model": "nfctags.tagtype",
+  "pk": 1
+}, {
+  "fields": {
+    "access": "read/write or read only",
+    "speed": "106 kbit/s",
+    "capacity": "48 - 137 Byte",
+    "name": "Type 2",
+    "description": ""
+  },
+  "model": "nfctags.tagtype",
+  "pk": 2
+}, {
+  "fields": {
+    "access": "read/write or read only",
+    "speed": "212 - 424 kbit/s",
+    "capacity": "1 - 9 kByte",
+    "name": "Type 3",
+    "description": ""
+  },
+  "model": "nfctags.tagtype",
+  "pk": 3
+}, {
+  "fields": {
+    "access": "read/write or read only",
+    "speed": "up to 424 kbit/s",
+    "capacity": "4 - 32 kByte",
+    "name": "Type 4",
+    "description": ""
+  },
+  "model": "nfctags.tagtype",
+  "pk": 4
+}]
